@@ -1,0 +1,85 @@
+* Phenology GUI
+This GUI is for displaying images and selecting region of interest (ROI).
+** requirement
+Python 3 and a few external modules (install them with pip install
+<module> if Python complains).
+
+** Instruction
+1. Place utils.py and session.py in the same directory and run session.py.
+
+2. You have the option to load an output csv file from previous session or start a new session.
+   - The output file from previous session should not have been altered! Work with copies if altering the file is necessary
+   - If starting a new session, select all image files by using Ctrl or Shift buttons.
+
+3. Marking ROI
+   - Select ROI using the radio option. 
+   - Create a polygon on the image.
+     - Left click adds a point
+     - Right click finalizes the polygon
+   - Repeat above steps. You can reset the ROIs with "Clear ROI" button.
+   - When you're done with the image, click "Finalize Image". This
+     will save the ROI for the next image ("Apply Previous ROI" button).
+
+4. Output
+   - Click "Save and close" to save the output csv file.
+   - The output will be a csv file with the iamge metadata, ROI coordinates, and ROI statistics
+     - Note: ROI coordinates will be a list of (x,y) values
+       - i.e. [(3,4), (10, 10), (5,2)]
+   - This is the file you can load a session with. 
+
+5. Hotkeys
+   - Enter: finalize image
+   - Space: apply previous ROI
+   - Right arrow: skip to next image
+** Notes
+*** Modifying ROI types
+To modify the ROI types, you can edit the ROI_TYPES and ROI_COLORS variables in utils.py.
+*** Modifying the ROI statistics
+This is more complicated. You have to modify the STATS variable in
+utils.py, but the output file save the result. I need to test this.
+
+*** Modifying image canvas size
+This might be useful if a large image is causing issues with the size
+of your app. You can change the size of region dedicated for
+displaying the image (default is 1600x1200). This is in utils.py under
+CANVAS_SIZE variable.
+** Issues
+*** DONE Get Camera_id and image Date
+    CLOSED: [2017-04-05 Wed 17:50]
+**** RESOLVED Camera_ID
+     CLOSED: [2017-04-06 Thu 13:33]
+Assume that the input directory is the camera_id.
+*** DONE RGB for entire image
+    CLOSED: [2017-04-06 Thu 17:42]
+*** DONE IO - single input and output per camera
+    CLOSED: [2017-04-06 Thu 00:51]
+The input will be a folder associated with a camera.
+**** DONE Read all of .jpg files in the subdirectories
+     CLOSED: [2017-04-05 Wed 18:42]
+**** RESOLVED Large memory requirement
+     CLOSED: [2017-04-06 Thu 00:50]
+The current implementation keeps all the images around.
+i.e. for 200 images, I had 4gb memory overhead.
+
+Fix this so that only current image is opened.
+**** DONE Arrange the images in the folder by date
+     CLOSED: [2017-04-06 Thu 00:50]
+*** DONE Output: create indicator for change in camera position
+    CLOSED: [2017-04-06 Thu 13:24]
+*** DONE Create a button to save without closing
+    CLOSED: [2017-04-06 Thu 17:42]
+**** DONE Don't close app on "save". 
+     CLOSED: [2017-04-05 Wed 16:50]
+**** DONE Prompt for a new folder
+     CLOSED: [2017-04-06 Thu 17:42]
+*** DONE Add scrollbar to the canvas
+    Image scrollbar is on the top and left. When the image is too
+    large you can't access the right and bottom side of the app.
+    CLOSED: [2017-04-05 Wed 16:44]
+*** ISSUE I need access to the NAS for the actual data
+**** RESOLVED Copied some data but still need access
+     CLOSED: [2017-03-27 Mon 16:31]
+*** TODO Test modifying ROI statistics
+*** ISSUE Prev_ROI Function
+If image is finalized without ROI, it overwrites the previous ROI.
+This is a safe way but it might be inconvenient.
